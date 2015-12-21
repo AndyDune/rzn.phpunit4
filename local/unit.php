@@ -7,6 +7,8 @@
  * | Дата: 04.12.2015                                     |
  * ----------------------------------------------------
  *
+ * Почитать про тесты: https://phpunit.de/manual/4.8/en/
+ *
  * После устанвоки модуля скопироват этот файл в папку local
  * В репозиторий можно не добавлять - только для тестов.
  * Запускать так: /local/unit.php?module=<название модуля>
@@ -26,6 +28,39 @@ if(isset($_REQUEST['module'])) {
     ?>Нечего тестировать<?
     return;
 }
+$moduleDir = __DIR__ . '/modules/' . $modune;
+if (!is_dir(__DIR__ . '/modules/' . $modune)) {
+    ?>Нет модуля<?
+    return;
+}
+
+if(isset($_REQUEST['class'])) {
+    $class = $_REQUEST['class'];
+    $mapFile = $moduleDir . '/tests_map.php';
+    if (!is_file($mapFile)) {
+        ?>Нет файла с картой классов<?
+        return;
+    }
+    $classMap = include($mapFile);
+    if(!array_key_exists($class, $classMap)) {
+        ?>Нет соответствия для ключа класса<?
+        return;
+    }
+    $class = $classMap[$class];
+    if (!isset($class[0]) or !isset($class[1])) {
+        ?>Неверный формат описания инструкции для запуска<?
+        return;
+    }
+    $class[1] = $moduleDir . '/' . ltrim($class[1], '/');
+    if (!is_file($class[1])) {
+        ?>Нет файла с классом для тестирования: <?
+        echo $class[1];
+        return;
+    }
+} else {
+    $class = false;
+}
+
 
 //$_SERVER['argv'] = ['MyClassTest', 'test/MyClassTest.php'];
 //$array = include(__DIR__ . '/modules/rzn.library/tests_map.php');
@@ -33,7 +68,11 @@ if(isset($_REQUEST['module'])) {
 //$_SERVER['argv'] = $array['ArrayModification'];
 
 
-$_SERVER['argv'] = ['', __DIR__ . '/modules/' . $modune  .'/tests'];
+if ($class) {
+    $_SERVER['argv'] = $class;
+} else {
+    $_SERVER['argv'] = ['', $moduleDir . '/tests'];
+}
 
 PHPUnit_TextUI_Command::main();
 
