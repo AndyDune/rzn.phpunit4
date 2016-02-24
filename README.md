@@ -13,7 +13,7 @@
 
 Тест запускается для каждого модуля отдельно. Подразумевается, что ваши модули хранятся в папке  `local/modules`
 
-На примере модуля (rzn.library)[https://github.com/AndyDune/rzn.library] запустить можно из браузера или с командной строки:
+На примере модуля [rzn.library](https://github.com/AndyDune/rzn.library) запустить можно из браузера или с командной строки:
 
 - 'my.site/local/unit.php?module=rzn.library' - из браузера
 - 'wget -q -O - my.site/local/unit.php?module=rzn.library' - командная строка
