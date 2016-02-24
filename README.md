@@ -31,7 +31,7 @@ return [
 Для запуска отдельного теста нужно дополнительно в запросе указать ключ из описания:
 
 - 'my.site/local/unit.php?module=rzn.library&class=waterfall' - из браузера
-- 'wget -q -O - my.site/local/unit.php?module=rzn.library\&class=waterfall' - командная строка
+- 'wget -q -O - my.site/local/unit.php?module=rzn.library\\&class=waterfall' - командная строка
 
 
 ### Создание тестовых классов для Битрикса
